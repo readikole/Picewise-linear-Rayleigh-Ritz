@@ -1,1 +1,1 @@
-# Rayleigh-Ritz
+# Piecewise Linear Rayleigh-Ritz
