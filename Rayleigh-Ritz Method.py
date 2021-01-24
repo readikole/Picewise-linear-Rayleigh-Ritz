@@ -1,7 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.rcParams['text.usetex'] = True
 
-'''I use the Rayleigh-Ritz method to solve a second order  ordinary differential equation with a nonzero RHS
+
+
+'''I use the piecewise linear Rayleigh-Ritz method to solve a second order  ordinary differential equation with a nonzero RHS
 The d.e is of the form :  - d/dx(  p(x)dy/dx) + q(x)y = f(x).
 The integration is performed on the interval 0<=x<=1'''
 
@@ -9,7 +13,7 @@ def rhs(x):
     '''This computes the rhs of the d.e.
     INPUT: the variable x'''
     return 2*(np.pi**2)*np.sin(np.pi*x)
-N =10
+N =1000
 x = np.linspace(0,1, N+1)
 
 h = []          #intialize space step
@@ -115,7 +119,7 @@ indices = []
 for i in range(N):
     a =  N-1-i
     indices.append(a)
-print(indices)
+#print(indices)
 c[N] = z[N]
 
 for i in indices:
@@ -135,5 +139,17 @@ df = pd.DataFrame(c ,phi_new)
 print(df)
 
 #plotting 
-plt.plot(x, phi_new,x,  np.sin(np.pi*x), '-r', x,error, '-g')
+plt.grid()
+plt.plot(x, phi_new,x,  np.sin(np.pi*x), 'r')
+plt.legend(['Rayleigh-Rithz', 'Exact Solution'])
+plt.xlabel(r'x')
+plt.ylabel(r'$\phi(x)$')
+plt.savefig('Results')
+plt.show()
+
+plt.loglog(np.linspace(0, N, N+1),error, 'g')
+plt.title(r'\textbf{Error growth of the integrator}')
+plt.xlabel(r'x')
+plt.ylabel(r'Error')
+plt.savefig('Error')
 plt.show()
