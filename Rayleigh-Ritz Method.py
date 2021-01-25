@@ -13,7 +13,7 @@ def rhs(x):
     '''This computes the rhs of the d.e.
     INPUT: the variable x'''
     return 2*(np.pi**2)*np.sin(np.pi*x)
-N =1000
+N =100
 x = np.linspace(0,1, N+1)
 
 h = []          #intialize space step
@@ -72,9 +72,9 @@ for i in range(N-1):
     
 #now compute  Q1,n , Q2,n , Q3,n , Q4,n Q4,n+1, Q5n, Q6,n
 
-q1n = (h[N]/12)*(p(x[N-1]) + q(x[N]))
-Q1.append(q1n)
-q2n = (h[N-1]/12)*(3*q(x[N]) + q(x[N-1]))
+#q1n = (h[N]/12)*(p(x[N-1]) + q(x[N]))
+#Q1.append(q1n)
+q2n = (h[N-2]/12)*(3*q(x[N-1]) + q(x[N-2]))
 Q2.append(q2n)
 q3n = (h[N]/12)*(3*q(x[N-1]) + q(x[N]))
 Q3.append(q3n)
@@ -82,7 +82,7 @@ q4n_last = (h[N-1]/2)*(p(x[N]) + p(x[N-1]))
 q4n_second_last = (h[N-2]/2)*(p(x[N-1]) + p(x[N-2]))
 Q4.append(q4n_second_last)
 Q4.append(q4n_last)
-q5n = (h[N]/6)*(2*rhs(x[N]) + rhs(x[N-1]))
+q5n = (h[N-1]/6)*(2*rhs(x[N-1]) + rhs(x[N-2]))
 Q5.append(q5n)
 q6n = (h[N]/6)*(2*rhs(x[N-1]) + rhs(x[N]))
 Q6.append(q6n)
@@ -141,12 +141,13 @@ print(df)
 #plotting 
 plt.grid()
 plt.plot(x, phi_new,x,  np.sin(np.pi*x), 'r')
-plt.legend(['Rayleigh-Rithz', 'Exact Solution'])
+plt.legend(['Rayleigh-Ritz', 'Exact Solution'])
 plt.xlabel(r'x')
 plt.ylabel(r'$\phi(x)$')
 plt.savefig('Results')
 plt.show()
 
+plt.grid()
 plt.loglog(np.linspace(0, N, N+1),error, 'g')
 plt.title(r'\textbf{Error growth of the integrator}')
 plt.xlabel(r'x')
